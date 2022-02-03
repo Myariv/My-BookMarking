@@ -1,0 +1,20 @@
+.button {
+  background-color: #101820ff;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  margin-left: 5rem;
+  /* padding: 8px 32px; */
+  min-width: 8rem;
+  min-height: 2.8rem;
+  font-size: 1.5rem;
+  border: 1px solid #101820ff;
+}
+
+.button:hover,
+.button:active {
+  background-color: white;
+  border: 1px solid #101820ff;
+  color: #101820ff;
+  cursor: pointer;
+}

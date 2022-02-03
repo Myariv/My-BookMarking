@@ -1,0 +1,79 @@
+/* #efe6d5  #101820ff */
+
+.container {
+  border: 1px solid #efe6d5;
+  border-radius: 3px;
+  max-width: 95%;
+  min-height: 14rem;
+  margin: 1rem auto;
+  padding: 1rem 2rem;
+
+  display: flex;
+  gap: 2rem;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+}
+
+/* temperary  */
+.button {
+  background: none;
+  border: none;
+  background-color: #101820ff;
+  padding: 3px 6px;
+  border-radius: 3px;
+  color: #efe6d5;
+  margin-bottom: 1rem;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+/* temperary  */
+
+.content {
+  width: 100%;
+}
+
+.content--header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content--header p {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.content--header time {
+  font-size: 1.2rem;
+}
+
+.content--main {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.content--main p {
+  font-size: 1.1rem;
+}
+
+.tags {
+  display: flex;
+  gap: 10px;
+}
+
+.tags span {
+  background: #efe6d5;
+  border-radius: 3px;
+  padding: 5px 10px;
+}
+
+.notes p {
+  max-height: 6rem;
+}
