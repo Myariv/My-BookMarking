@@ -21,7 +21,11 @@ const SingleBookmark = (props) => {
         </div>
 
         <div className={classes['content--main']}>
-          <p>{props.url}</p>
+          <p>
+            <a target='_blank' rel='noreferrer' href={props.url}>
+              {props.url}
+            </a>
+          </p>
 
           <div className={classes.tags}>
             {props.tags.map((tag, index) => (

@@ -1,8 +1,7 @@
 import { useEffect, useReducer, useRef } from 'react';
-import { getDoc, updateDoc, setDoc, doc } from 'firebase/firestore';
-import { firestore } from '../../firebase';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { bookmarksAction } from '../../store/bookmarks/bookmarks-slice';
 import classes from './NewBookmarkForm.module.css';
 
 const inintailState = { title: true, url: true, tags: [], notes: '', validForm: false };
@@ -59,7 +58,8 @@ const inputsReducer = (state, action) => {
 
 const NewBookmarkForm = (props) => {
   const navigate = useNavigate();
-  const { uid } = useSelector((state) => state.auth);
+
+  const reduxDispatch = useDispatch();
   const [state, dispatch] = useReducer(inputsReducer, inintailState);
 
   const { validForm } = state;
@@ -91,63 +91,19 @@ const NewBookmarkForm = (props) => {
   };
 
   useEffect(() => {
-    const addMarkingToDb = async () => {
-      clearInputs();
-
-      const userRef = doc(firestore, 'users', uid);
-      const docSnap = await getDoc(userRef);
-
-      if (docSnap.exists()) {
-        const { bookmarks } = docSnap.data();
-
-        await updateDoc(userRef, {
-          bookmarks: [
-            ...bookmarks,
-            {
-              title: state.title,
-              url: state.url,
-              tags: state.tags,
-              notes: state.notes,
-              date: `${new Date().getDate()}/${
-                new Date().getMonth() + 1
-              }/${new Date().getFullYear()}`,
-            },
-          ],
-        });
-
-        // dispatch({ type: 'RESET_STATE' }); // to clear state prevent extra request to server
-        navigate('/dashboard');
-      } else {
-        // i put merge just in case there is no bookmarks
-        await setDoc(
-          userRef,
-          {
-            bookmarks: [
-              {
-                title: state.title,
-                url: state.url,
-                tags: state.tags,
-                notes: state.notes,
-                date: `${new Date().getDate()}/${
-                  new Date().getMonth() + 1
-                }/${new Date().getFullYear()}`,
-              },
-            ],
-          },
-          { merge: true }
-        );
-
-        // dispatch({ type: 'RESET_STATE' }); // to clear state prevent extra request to server
-        navigate('/dashboard');
-      }
+    const setBookmark = () => {
+      reduxDispatch(bookmarksAction.addBookmark({ bookmark: state }));
     };
 
     if (!validForm) {
       return;
     }
 
-    addMarkingToDb();
-  }, [state, uid, validForm, navigate]);
+    setBookmark();
+    clearInputs();
+    dispatch({ type: 'RESET_STATE' });
+    navigate('/myBookmarks');
+  }, [state, validForm, dispatch, reduxDispatch, navigate]);
 
   return (
     <form className={classes.form} onSubmit={onSubmithHandler}>
