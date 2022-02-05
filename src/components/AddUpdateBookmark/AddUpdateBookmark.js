@@ -2,7 +2,7 @@ import { useEffect, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { bookmarksAction } from '../../store/bookmarks/bookmarks-slice';
-import Form from './Form';
+import AddUpdateForm from './AddUpdateForm';
 
 const inputsReducer = (state, action) => {
   let updatedState = { ...state };
@@ -80,7 +80,7 @@ const inputsReducer = (state, action) => {
   }
 };
 
-const NewBookmarkForm = (props) => {
+const AddUpdateBookmark = (props) => {
   const { bookmarkToEdit } = props;
   let inintailState = {};
 
@@ -142,7 +142,7 @@ const NewBookmarkForm = (props) => {
   }, [state, validForm, dispatch, reduxDispatch, navigate, bookmarkToEdit]);
 
   return (
-    <Form
+    <AddUpdateForm
       onSubmithHandler={onSubmithHandler}
       validTitle={state.validTitle}
       validUrl={state.validUrl}
@@ -158,4 +158,4 @@ const NewBookmarkForm = (props) => {
   );
 };
 
-export default NewBookmarkForm;
+export default AddUpdateBookmark;

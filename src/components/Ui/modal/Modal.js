@@ -13,7 +13,7 @@ const ModalForm = (props) => {
   return (
     <Fragment>
       <Backdrop returnOnceHandler={returnOnce} />
-      <main className={classes.modal}>{props.children}</main>;
+      <main className={classes.modal}>{props.children}</main>
     </Fragment>
   );
 };

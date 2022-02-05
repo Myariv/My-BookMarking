@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useOutletContext } from 'react-router-dom';
-import NewBookmarkForm from '../components/AddBookmark/NewBookmarkForm';
+import AddUpdateBookmark from '../components/AddUpdateBookmark/AddUpdateBookmark';
 import Modal from '../components/Ui/modal/Modal';
 
 const EditBookmark = () => {
@@ -11,7 +11,7 @@ const EditBookmark = () => {
 
   return (
     <Modal>
-      <NewBookmarkForm bookmarkToEdit={bookmarkToEdit} />
+      <AddUpdateBookmark bookmarkToEdit={bookmarkToEdit} />
     </Modal>
   );
 };

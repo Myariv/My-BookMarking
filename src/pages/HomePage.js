@@ -48,6 +48,7 @@ const HomePage = () => {
   }, [credentials, dispatch, navigate]);
 
   const userAuHandler = (userCredentials) => {
+    console.log(userCredentials);
     setCredentials(userCredentials);
   };
 

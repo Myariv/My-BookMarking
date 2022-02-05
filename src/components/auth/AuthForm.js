@@ -6,81 +6,124 @@ import classes from './AuthForm.module.css';
 const AuthForm = (props) => {
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [isEmaildValid, setIsEmaildValid] = useState(true);
-  // const [isRegister, setIsRegister] = useState(false);
+  const [isNamedValid, setIsNamedValid] = useState(true);
   const { isRegister } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const registerHandler = () => {
-    // setIsRegister(true);
     dispatch(authActions.register(true));
   };
 
   const loginHandler = () => {
-    //   // setIsRegister(false)
     dispatch(authActions.register(false));
   };
 
+  const nameInputRef = useRef();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
   const submitHandler = (e) => {
     e.preventDefault();
+
+    let enteredName;
+
+    if (!isRegister) {
+      enteredName = nameInputRef.current.value;
+    }
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
     // validation
-    if (enteredPassword.length <= 5) {
-      setIsPasswordValid(false);
-      return;
+    if (!isRegister) {
+      if (!enteredName) {
+        setIsNamedValid(false);
+      } else {
+        setIsNamedValid(true);
+      }
     }
 
     if (!enteredEmail || !enteredEmail.includes('@')) {
       setIsEmaildValid(false);
-      return;
+    } else {
+      setIsEmaildValid(true);
     }
 
-    setIsPasswordValid(true);
-    setIsEmaildValid(true);
+    if (enteredPassword.length <= 5) {
+      setIsPasswordValid(false);
+    } else {
+      setIsPasswordValid(true);
+    }
 
-    props.onUserAuHandler({ email: enteredEmail, password: enteredPassword, isRegister });
+    if (!isRegister) {
+      if (!enteredPassword || !enteredEmail || !enteredName) {
+        return;
+      }
+    } else {
+      if (!enteredPassword || !enteredEmail) {
+        return;
+      }
+    }
 
+    props.onUserAuHandler({
+      email: enteredEmail,
+      password: enteredPassword,
+      isRegister,
+      name: isRegister ? '' : enteredName,
+    });
+
+    if (!isRegister) {
+      nameInputRef.current.value = '';
+    }
     emailInputRef.current.value = '';
     passwordInputRef.current.value = '';
   };
 
   return (
-    <form onSubmit={submitHandler} className={classes.form}>
-      {!isRegister && <div className={classes.title}>Register</div>}
-      {isRegister && <div className={classes.title}>Login</div>}
-
-      <div className={classes.inputs}>
-        <div className={classes.input}>
-          <label htmlFor='email'>Email</label>
-          <input type='email' id='email' ref={emailInputRef} />
-          {!isEmaildValid && (
-            <p className={classes.invalid}>Invalid Email Must Contain '@'</p>
+    <div className={classes.container}>
+      <form onSubmit={submitHandler} className={classes.form}>
+        <div className={classes['form__title']}>
+          {!isRegister && <p>Register</p>}
+          {isRegister && <p>Login</p>}
+        </div>
+        <div className={classes.inputs}>
+          {!isRegister && (
+            <div className={classes.input}>
+              <label htmlFor='name'>Name</label>
+              <input type='name' id='name' ref={nameInputRef} />
+              {!isNamedValid && <p className={classes.invalid}>Name Is Required</p>}
+            </div>
           )}
+
+          <div className={classes.input}>
+            <label htmlFor='email'>Email</label>
+            <input type='email' id='email' ref={emailInputRef} />
+            {!isEmaildValid && (
+              <p className={classes.invalid}>Invalid Email Must Contain '@'</p>
+            )}
+          </div>
+
+          <div className={classes.input}>
+            <label htmlFor='password'>Password</label>
+            <input type='password' id='password' ref={passwordInputRef} />
+            {!isPasswordValid && (
+              <p className={classes.invalid}>Invalid Password Must Be Atleast 6 Chars</p>
+            )}
+          </div>
         </div>
 
-        <div className={classes.input}>
-          <label htmlFor='password'>Password</label>
-          <input type='password' id='password' ref={passwordInputRef} />
-          {!isPasswordValid && (
-            <p className={classes.invalid}>Invalid Password Must Be Atleast 6 Chars</p>
-          )}
+        <p className={classes.register}>
+          {isRegister ? 'To Create New Account' : 'Already Have An Account?'}{' '}
+          <button type='button' onClick={isRegister ? loginHandler : registerHandler}>
+            Click Here!
+          </button>
+        </p>
+
+        <div className={classes['form__bottom']}>
+          {!isRegister && <button className={classes.button}>Register</button>}
+          {isRegister && <button className={classes.button}>Login</button>}
         </div>
-      </div>
-
-      <p className={classes.register}>
-        {isRegister ? 'To Create New Account' : 'Already Have An Account?'}{' '}
-        <button type='button' onClick={isRegister ? loginHandler : registerHandler}>
-          Click Here!
-        </button>
-      </p>
-
-      {!isRegister && <button className={classes.button}>Register</button>}
-      {isRegister && <button className={classes.button}>Login</button>}
-    </form>
+      </form>
+    </div>
   );
 };
 
