@@ -1,19 +1,17 @@
-import { useEffect, useReducer, useRef } from 'react';
+import { useEffect, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { bookmarksAction } from '../../store/bookmarks/bookmarks-slice';
 import Form from './Form';
-// import classes from './NewBookmarkForm.module.css';
-
-let inintailState = { title: true, url: true, tags: [], notes: '', validForm: false };
 
 const inputsReducer = (state, action) => {
   let updatedState = { ...state };
 
   if (action.type === 'TITLE') {
     if (!action.enterdTitle) {
-      updatedState.title = undefined;
-      return updatedState;
+      updatedState.validTitle = false;
+    } else {
+      updatedState.validTitle = true;
     }
 
     updatedState.title = action.enterdTitle;
@@ -21,12 +19,14 @@ const inputsReducer = (state, action) => {
   }
 
   if (action.type === 'URL') {
-    if (
-      !action.enterdUrl.startsWith('https://') &&
-      !action.enterdUrl.startsWith('http://')
-    ) {
-      updatedState.url = undefined;
-      return updatedState;
+    if (!action.enterdUrl.includes('https://') && !action.enterdUrl.includes('http://')) {
+      updatedState.validUrl = false;
+    } else {
+      updatedState.validUrl = true;
+    }
+
+    if (!action.enterdUrl) {
+      updatedState.validUrl = false;
     }
 
     updatedState.url = action.enterdUrl;
@@ -36,7 +36,18 @@ const inputsReducer = (state, action) => {
   if (action.type === 'TAGS') {
     if (action.enterdTags.length > 0) {
       updatedState.tags = action.enterdTags.split(',');
+      updatedState.validTags = true;
     }
+
+    if (action.enterdTags.endsWith(',')) {
+      updatedState.validTags = false;
+    }
+
+    if (!action.enterdTags) {
+      updatedState.tags = [];
+      updatedState.validTags = true;
+    }
+
     return updatedState;
   }
 
@@ -46,63 +57,66 @@ const inputsReducer = (state, action) => {
   }
 
   if (action.type === 'VALID_FORM') {
-    if (state.title && state.url) {
+    if (updatedState.validTitle && updatedState.validUrl && updatedState.validTags) {
       updatedState.validForm = true;
     } else {
       updatedState.validForm = false;
     }
+
     return updatedState;
   }
 
   if (action.type === 'RESET_STATE') {
-    return { title: true, url: true, tags: [], notes: '', validForm: false };
+    return {
+      title: '',
+      validTitle: null,
+      url: '',
+      validUrl: null,
+      tags: [],
+      validTags: null,
+      notes: '',
+      validForm: false,
+    };
   }
-  return state;
 };
 
 const NewBookmarkForm = (props) => {
   const { bookmarkToEdit } = props;
+  let inintailState = {};
 
   if (bookmarkToEdit) {
     inintailState = {
+      validTitle: true,
       title: bookmarkToEdit.title,
+      validUrl: true,
       tags: bookmarkToEdit.tags,
+      validTags: true,
       notes: bookmarkToEdit.notes,
       url: bookmarkToEdit.url,
       id: bookmarkToEdit.id,
+      validForm: false,
+    };
+  } else {
+    inintailState = {
+      title: '',
+      validTitle: null,
+      url: '',
+      validUrl: null,
+      tags: [],
+      validTags: null,
+      notes: '',
+      validForm: false,
     };
   }
 
   const navigate = useNavigate();
   const reduxDispatch = useDispatch();
   const [state, dispatch] = useReducer(inputsReducer, inintailState);
-
   const { validForm } = state;
-  const titleInputRef = useRef();
-  const urlInputRef = useRef();
-  const tagsInputRef = useRef();
-  const notesInputRef = useRef();
 
   const onSubmithHandler = (e) => {
     e.preventDefault();
-
-    const enterdTitle = titleInputRef.current.value;
-    const enterdUrl = urlInputRef.current.value;
-    let enterdTags = tagsInputRef.current.value;
-    const enterdNotes = notesInputRef.current.value;
-
-    dispatch({ type: 'TITLE', enterdTitle });
-    dispatch({ type: 'URL', enterdUrl });
-    dispatch({ type: 'TAGS', enterdTags });
-    dispatch({ type: 'NOTES', enterdNotes });
     dispatch({ type: 'VALID_FORM' });
-  };
-
-  const clearInputs = () => {
-    titleInputRef.current.value = '';
-    urlInputRef.current.value = '';
-    tagsInputRef.current.value = '';
-    notesInputRef.current.value = '';
   };
 
   useEffect(() => {
@@ -123,7 +137,6 @@ const NewBookmarkForm = (props) => {
     } else {
       setBookmark();
     }
-    clearInputs();
     dispatch({ type: 'RESET_STATE' });
     navigate('/myBookmarks');
   }, [state, validForm, dispatch, reduxDispatch, navigate, bookmarkToEdit]);
@@ -131,16 +144,16 @@ const NewBookmarkForm = (props) => {
   return (
     <Form
       onSubmithHandler={onSubmithHandler}
-      titleInputRef={titleInputRef}
-      urlInputRef={urlInputRef}
-      tagsInputRef={tagsInputRef}
-      notesInputRef={notesInputRef}
-      state={state}
-      title={bookmarkToEdit && state.title}
-      url={bookmarkToEdit && state.url}
-      tags={bookmarkToEdit && state.tags}
-      notes={bookmarkToEdit && state.notes}
-      onDispatch={bookmarkToEdit && dispatch}
+      validTitle={state.validTitle}
+      validUrl={state.validUrl}
+      validTags={state.validTags}
+      formIsValid={validForm}
+      title={state.title}
+      url={state.url}
+      tags={state.tags}
+      notes={state.notes}
+      onDispatch={dispatch}
+      isUpdate={bookmarkToEdit ? true : false}
     />
   );
 };

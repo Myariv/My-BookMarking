@@ -8,7 +8,7 @@ import Dashboard from './pages/Dashboard';
 import AddBookmark from './pages/AddBookmark';
 import MyBookMarks from './pages/MyBookmarks';
 import Layout from './components/layout/Layout';
-import EditBookmark from './components/editBookmark/EditBookmark';
+import EditBookmark from './pages/EditBookmark';
 
 function App() {
   const dispatch = useDispatch();
@@ -53,16 +53,3 @@ function App() {
 }
 
 export default App;
-
-//  <Routes>
-//    <Route path='/' element={<Navigate replace to='/home' />} />
-//    {!isLogin && <Route path='/home' element={<HomePage />} />}
-//    {isLogin && <Route path='/dashboard' element={<Dashboard />} />}
-//    {isLogin && <Route path='/addBookmark' element={<AddBookmark />} />}
-//    {isLogin && (
-//      <Route path='/myBookmarks' element={<MyBookMarks />}>
-//        <Route path='/myBookmarks/:id' element={<EditBookmark />} />
-//      </Route>
-//    )}
-//    <Route path='/*' element={<p className='notFound'>404 This Page Not Found</p>} />
-//  </Routes>;

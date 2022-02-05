@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
-import classes from './Modal.module.css';
-import Backdrop from './Backdrop';
 import { useNavigate } from 'react-router-dom';
+import Backdrop from './Backdrop';
+import classes from './Modal.module.css';
 
 const ModalForm = (props) => {
   const navigate = useNavigate();
