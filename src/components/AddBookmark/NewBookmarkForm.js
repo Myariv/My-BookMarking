@@ -2,16 +2,17 @@ import { useEffect, useReducer, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { bookmarksAction } from '../../store/bookmarks/bookmarks-slice';
-import classes from './NewBookmarkForm.module.css';
+import Form from './Form';
+// import classes from './NewBookmarkForm.module.css';
 
-const inintailState = { title: true, url: true, tags: [], notes: '', validForm: false };
+let inintailState = { title: true, url: true, tags: [], notes: '', validForm: false };
 
 const inputsReducer = (state, action) => {
   let updatedState = { ...state };
 
   if (action.type === 'TITLE') {
     if (!action.enterdTitle) {
-      updatedState.title = false;
+      updatedState.title = undefined;
       return updatedState;
     }
 
@@ -20,8 +21,11 @@ const inputsReducer = (state, action) => {
   }
 
   if (action.type === 'URL') {
-    if (!action.enterdUrl.includes('https://') && !action.enterdUrl.includes('http://')) {
-      updatedState.url = false;
+    if (
+      !action.enterdUrl.startsWith('https://') &&
+      !action.enterdUrl.startsWith('http://')
+    ) {
+      updatedState.url = undefined;
       return updatedState;
     }
 
@@ -57,8 +61,19 @@ const inputsReducer = (state, action) => {
 };
 
 const NewBookmarkForm = (props) => {
-  const navigate = useNavigate();
+  const { bookmarkToEdit } = props;
 
+  if (bookmarkToEdit) {
+    inintailState = {
+      title: bookmarkToEdit.title,
+      tags: bookmarkToEdit.tags,
+      notes: bookmarkToEdit.notes,
+      url: bookmarkToEdit.url,
+      id: bookmarkToEdit.id,
+    };
+  }
+
+  const navigate = useNavigate();
   const reduxDispatch = useDispatch();
   const [state, dispatch] = useReducer(inputsReducer, inintailState);
 
@@ -95,55 +110,38 @@ const NewBookmarkForm = (props) => {
       reduxDispatch(bookmarksAction.addBookmark({ bookmark: state }));
     };
 
+    const updateBookmark = () => {
+      reduxDispatch(bookmarksAction.updateBookmark({ bookmark: state }));
+    };
+
     if (!validForm) {
       return;
     }
 
-    setBookmark();
+    if (bookmarkToEdit) {
+      updateBookmark();
+    } else {
+      setBookmark();
+    }
     clearInputs();
     dispatch({ type: 'RESET_STATE' });
     navigate('/myBookmarks');
-  }, [state, validForm, dispatch, reduxDispatch, navigate]);
+  }, [state, validForm, dispatch, reduxDispatch, navigate, bookmarkToEdit]);
 
   return (
-    <form className={classes.form} onSubmit={onSubmithHandler}>
-      <section className={classes.inputs}>
-        <section className={classes.flex}>
-          <div className={classes.input}>
-            <label htmlFor='title'>Title</label>
-            <input type='text' id='title' ref={titleInputRef} />
-          </div>
-          {!state.title && <p className={classes.invalid}>Title Is Required</p>}
-        </section>
-
-        <div className={classes.flex}>
-          <div className={classes.input}>
-            <label htmlFor='url'>URL</label>
-            <input type='text' id='url' ref={urlInputRef} />
-          </div>
-          {!state.url && (
-            <p className={classes.invalid}>Invalid Url Must includes (http, https)</p>
-          )}
-        </div>
-
-        <div className={classes.flex}>
-          <div className={classes.input}>
-            <label htmlFor='tags'>Tags</label>
-            <input type='text' id='tags' ref={tagsInputRef} />
-          </div>
-        </div>
-
-        <div className={classes.flex}>
-          <div className={classes.input}>
-            <label className={classes.start} htmlFor='notes'>
-              Notes
-            </label>
-            <textarea id='notes' rows={7} ref={notesInputRef} />
-          </div>
-        </div>
-      </section>
-      <button className={classes.button}>Add</button>
-    </form>
+    <Form
+      onSubmithHandler={onSubmithHandler}
+      titleInputRef={titleInputRef}
+      urlInputRef={urlInputRef}
+      tagsInputRef={tagsInputRef}
+      notesInputRef={notesInputRef}
+      state={state}
+      title={bookmarkToEdit && state.title}
+      url={bookmarkToEdit && state.url}
+      tags={bookmarkToEdit && state.tags}
+      notes={bookmarkToEdit && state.notes}
+      onDispatch={bookmarkToEdit && dispatch}
+    />
   );
 };
 

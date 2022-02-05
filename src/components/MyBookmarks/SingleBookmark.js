@@ -1,17 +1,23 @@
 import classes from './SingleBookmark.module.css';
 
 const SingleBookmark = (props) => {
-  const getIdHandler = () => {
+  const getIdDelHandler = () => {
     props.onDeleteOne(props.id);
+  };
+
+  const getIdEditHandler = () => {
+    props.onEditOneHandler(props.id);
   };
 
   return (
     <div className={classes.container}>
       <div className={classes.control}>
-        <button onClick={getIdHandler} className={classes.button}>
+        <button onClick={getIdDelHandler} className={classes.button}>
           X
         </button>
-        <button className={classes.button}>E</button>
+        <button onClick={getIdEditHandler} className={classes.button}>
+          E
+        </button>
       </div>
 
       <div className={classes.content}>

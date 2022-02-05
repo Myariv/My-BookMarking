@@ -33,7 +33,14 @@ const bookmarksSilce = createSlice({
     },
 
     updateBookmark: (state, action) => {
-      console.log(action.payload, 'UPDATE!!');
+      const { bookmark } = action.payload;
+      const indexToRemove = state.bookmarks.findIndex(
+        (single) => single.id === bookmark.id
+      );
+      state.bookmarks.splice(indexToRemove, 1, bookmark);
+      state.isChanged = true;
+
+      console.log('UPDATE!!');
     },
 
     deleteBookmark: (state, action) => {

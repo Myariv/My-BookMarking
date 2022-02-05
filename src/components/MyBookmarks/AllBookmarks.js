@@ -3,12 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import classes from './AllBookmarks.module.css';
 import SingleBookmark from '../MyBookmarks/SingleBookmark';
 
-const AllBookmarks = () => {
+const AllBookmarks = (props) => {
   const { bookmarks } = useSelector((state) => state.bookmarks);
   const dispatch = useDispatch();
 
   const deleteOneHandler = (id) => {
     dispatch(bookmarksAction.deleteBookmark({ id }));
+  };
+
+  const editOneHandler = (id) => {
+    props.onEditHandler(id);
   };
 
   return (
@@ -24,6 +28,7 @@ const AllBookmarks = () => {
       >
         {bookmarks.map((single) => (
           <SingleBookmark
+            onEditOneHandler={editOneHandler}
             onDeleteOne={deleteOneHandler}
             key={single.id}
             id={single.id}

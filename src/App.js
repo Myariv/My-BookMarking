@@ -41,8 +41,11 @@ function App() {
         {!isLogin && <Route path='/home' element={<HomePage />} />}
         {isLogin && <Route path='/dashboard' element={<Dashboard />} />}
         {isLogin && <Route path='/addBookmark' element={<AddBookmark />} />}
-        {isLogin && <Route path='/myBookmarks' element={<MyBookMarks />} />}
-        {isLogin && <Route path='/myBookmarks/:id' element={<EditBookmark />} />}
+        {isLogin && (
+          <Route path='/myBookmarks' element={<MyBookMarks />}>
+            <Route path='/myBookmarks/:id' element={<EditBookmark />} />
+          </Route>
+        )}
         <Route path='/*' element={<p className='notFound'>404 This Page Not Found</p>} />
       </Routes>
     </Layout>
