@@ -1,9 +1,11 @@
 import { bookmarksAction } from '../../store/bookmarks/bookmarks-slice';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import classes from './AllBookmarks.module.css';
 import SingleBookmark from '../MyBookmarks/SingleBookmark';
 
 const AllBookmarks = (props) => {
+  const navigate = useNavigate();
   const { bookmarks } = useSelector((state) => state.bookmarks);
   const dispatch = useDispatch();
 
@@ -15,10 +17,19 @@ const AllBookmarks = (props) => {
     props.onEditHandler(id);
   };
 
+  const addOneHandler = () => {
+    navigate('/myBookmarks/add');
+  };
+
   return (
     <main className={classes.main}>
-      <div className={classes.count}>
-        <p>Total</p> <span>{bookmarks.length}</span>
+      <div className={classes['head-contol']}>
+        <div className={classes['head-control__count']}>
+          <p>Total</p> <span>{bookmarks.length}</span>
+        </div>
+        <div className={classes['head-control__add']}>
+          <button onClick={addOneHandler}>Add</button>
+        </div>
       </div>
 
       <div

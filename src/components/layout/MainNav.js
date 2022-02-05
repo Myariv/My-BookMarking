@@ -27,7 +27,6 @@ const MainNav = () => {
 
       <nav className={classes.nav}>
         <ul>
-          <li>{isLogin && <Link to='/addBookmark'>AddBookmark</Link>}</li>
           <li>{isLogin && <Link to='/myBookmarks'>My Bookmarks</Link>}</li>
           <li>{isLogin && <Link to='/dashboard'>Dashboard</Link>}</li>
         </ul>

@@ -1,12 +1,11 @@
-import { Fragment } from 'react';
-
 import NewBookMarkForm from '../components/AddBookmark/NewBookmarkForm';
+import Moadl from '../components/Ui/modal/Modal';
 
 const AddBookmark = () => {
   return (
-    <Fragment>
+    <Moadl>
       <NewBookMarkForm />
-    </Fragment>
+    </Moadl>
   );
 };
 
