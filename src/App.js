@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { authActions } from './store/auth/auth-slice';
 import { fetchBookmarks, sendBookmarks } from './store/bookmarks/bookmarks-actions';
+
 import HomePage from './pages/HomePage';
 import Dashboard from './pages/Dashboard';
 import AddBookmark from './pages/AddBookmark';
@@ -16,11 +17,12 @@ function App() {
   const { bookmarks, isChanged } = useSelector((state) => state.bookmarks);
 
   useEffect(() => {
-    // REMEMBER TO AUTH THROW THE FIRESTORE -----------
-    const uidStorage = localStorage.getItem('UniqeId');
+    const IDENTIFIERS = localStorage.getItem('IDENTIFIERS');
+    if (!IDENTIFIERS) return;
+    const { uid, name } = JSON.parse(IDENTIFIERS);
 
-    if (!isLogin && uidStorage) {
-      dispatch(authActions.reConnect({ uid: uidStorage }));
+    if (!isLogin && uid) {
+      dispatch(authActions.reConnect({ uid, name }));
     }
   }, [isLogin, dispatch]);
 

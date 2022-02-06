@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   uid: '',
+  name: '',
   isLogin: false,
   isRegister: false,
 };
@@ -11,27 +12,29 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      const { uid } = action.payload;
+      const { uid, name } = action.payload;
 
       state.uid = uid;
+      state.name = name;
       state.isLogin = true;
-
-      localStorage.setItem('UniqeId', uid);
     },
 
     logout: (state) => {
       state.isLogin = false;
-
-      localStorage.removeItem('UniqeId');
+      state.uid = '';
+      state.name = '';
+      localStorage.removeItem('IDENTIFIERS');
     },
 
     register: (state, action) => {
+      console.log(action.payload);
       state.isRegister = action.payload;
     },
 
     reConnect: (state, action) => {
-      const { uid } = action.payload;
+      const { uid, name } = action.payload;
       state.uid = uid;
+      state.name = name;
       state.isLogin = true;
     },
   },

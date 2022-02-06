@@ -28,7 +28,7 @@ export const fetchBookmarks = (uid) => {
 };
 
 export const sendBookmarks = (bookmarks, uid) => {
-  return async (dispatch) => {
+  return async () => {
     const userRef = doc(firestore, 'users', uid);
     await setDoc(userRef, { bookmarks }, { merge: true });
     console.log('SEND!');

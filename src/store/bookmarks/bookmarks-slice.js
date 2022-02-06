@@ -16,6 +16,10 @@ const bookmarksSilce = createSlice({
       console.log(bookmarks, 'ALERT SET BOOKMARK!!');
     },
 
+    resetBookmarks: (state) => {
+      state.bookmarks = [];
+    },
+
     addBookmark: (state, action) => {
       const { bookmark } = action.payload;
       state.bookmarks.push({
