@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { authActions } from '../../store/auth/auth-slice';
 import { useSelector, useDispatch } from 'react-redux';
+import AuthFormInput from './AuthFormInput';
 import classes from './AuthForm.module.css';
 
 const AuthForm = (props) => {
@@ -85,30 +86,35 @@ const AuthForm = (props) => {
           {!isRegister && <p>Register</p>}
           {isRegister && <p>Login</p>}
         </div>
+
         <div className={classes.inputs}>
           {!isRegister && (
-            <div className={classes.input}>
-              <label htmlFor='name'>Name</label>
-              <input type='name' id='name' ref={nameInputRef} />
-              {!isNamedValid && <p className={classes.invalid}>Name Is Required</p>}
-            </div>
+            <AuthFormInput
+              label='name'
+              title='Name'
+              type='text'
+              inputRef={nameInputRef}
+              isValid={isNamedValid}
+              errorMessage={'Name Is Required'}
+            />
           )}
 
-          <div className={classes.input}>
-            <label htmlFor='email'>Email</label>
-            <input type='email' id='email' ref={emailInputRef} />
-            {!isEmaildValid && (
-              <p className={classes.invalid}>Invalid Email Must Contain '@'</p>
-            )}
-          </div>
-
-          <div className={classes.input}>
-            <label htmlFor='password'>Password</label>
-            <input type='password' id='password' ref={passwordInputRef} />
-            {!isPasswordValid && (
-              <p className={classes.invalid}>Invalid Password Must Be Atleast 6 Chars</p>
-            )}
-          </div>
+          <AuthFormInput
+            label='email'
+            title='Email'
+            type='email'
+            inputRef={emailInputRef}
+            isValid={isEmaildValid}
+            errorMessage={"Invalid Email Must Contain '@'"}
+          />
+          <AuthFormInput
+            label='password'
+            title='Password'
+            type='password'
+            inputRef={passwordInputRef}
+            isValid={isPasswordValid}
+            errorMessage={'Invalid Password Must Be Atleast 6 Chars'}
+          />
         </div>
 
         <p className={classes.register}>
