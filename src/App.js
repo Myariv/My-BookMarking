@@ -14,7 +14,7 @@ import EditBookmark from './pages/EditBookmark';
 function App() {
   const dispatch = useDispatch();
   const { isLogin, uid } = useSelector((state) => state.auth);
-  const { bookmarks, isChanged } = useSelector((state) => state.bookmarks);
+  const { bookmarks } = useSelector((state) => state.bookmarks);
 
   useEffect(() => {
     const IDENTIFIERS = localStorage.getItem('IDENTIFIERS');
@@ -31,10 +31,17 @@ function App() {
   }, [dispatch, uid]);
 
   useEffect(() => {
-    if (isChanged) {
-      dispatch(sendBookmarks(bookmarks, uid));
-    }
-  }, [bookmarks, dispatch, uid, isChanged]);
+    if (!uid || !bookmarks.length) return console.log('No Uid');
+    dispatch(sendBookmarks(bookmarks, uid));
+  }, [bookmarks, dispatch, uid]);
+
+  // useEffect(() => {
+  //   debugger;
+  //   if (isChanged) {
+  //     dispatch(sendBookmarks(bookmarks, uid));
+  //   }
+  //   debugger;
+  // }, [bookmarks, dispatch, uid, isChanged]);
 
   return (
     <Layout>

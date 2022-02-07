@@ -23,11 +23,11 @@ const authSlice = createSlice({
       state.isLogin = false;
       state.uid = '';
       state.name = '';
+      state.isRegister = '';
       localStorage.removeItem('IDENTIFIERS');
     },
 
     register: (state, action) => {
-      console.log(action.payload);
       state.isRegister = action.payload;
     },
 
