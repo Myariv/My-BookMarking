@@ -1,0 +1,12 @@
+.container {
+  /* border: 1px solid black; */
+  max-width: 1200px;
+  /* min-height: 600px; */
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  align-items: start;
+  justify-items: flex-start;
+}

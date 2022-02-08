@@ -1,5 +1,14 @@
-const Dashboard = () => {
-  return <h1>Dashboard Page</h1>;
+import DashBoardContainer from '../components/DashBoard/DashBoardContainer';
+import DashBoardHeader from '../components/DashBoard/DashBoardHeader';
+import { Fragment } from 'react';
+
+const DashBoard = () => {
+  return (
+    <Fragment>
+      <DashBoardHeader />
+      <DashBoardContainer />
+    </Fragment>
+  );
 };
 
-export default Dashboard;
+export default DashBoard;

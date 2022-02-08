@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import classes from './SearchBar.module.css';
 
 const SearchBar = () => {

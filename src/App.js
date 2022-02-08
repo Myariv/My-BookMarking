@@ -5,10 +5,10 @@ import { authActions } from './store/auth/auth-slice';
 import { fetchBookmarks, sendBookmarks } from './store/bookmarks/bookmarks-actions';
 
 import HomePage from './pages/HomePage';
-import Dashboard from './pages/Dashboard';
+import DashBoard from './pages/DashBoard';
 import AddBookmark from './pages/AddBookmark';
 import MyBookMarks from './pages/MyBookmarks';
-import Layout from './components/layout/Layout';
+import Layout from './components/Layout/Layout';
 import EditBookmark from './pages/EditBookmark';
 
 function App() {
@@ -48,7 +48,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Navigate replace to='/home' />} />
         {!isLogin && <Route path='/home' element={<HomePage />} />}
-        {isLogin && <Route path='/dashboard' element={<Dashboard />} />}
+        {isLogin && <Route path='/dashboard' element={<DashBoard />} />}
         {isLogin && (
           <Route path='/myBookmarks' element={<MyBookMarks />}>
             <Route path='/myBookmarks/:id' element={<EditBookmark />} />

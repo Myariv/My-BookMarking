@@ -1,0 +1,33 @@
+/* #efe6d5 #101820ff*/
+
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  height: 3rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-control {
+  display: flex;
+  justify-content: center;
+}
+
+.container-control button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  height: 2.8rem;
+  width: 2.8rem;
+  border-radius: 50%;
+  font-size: 2rem;
+  background: none;
+}
+
+.container-control button:hover {
+  cursor: pointer;
+  background-color: #efe6d5;
+}

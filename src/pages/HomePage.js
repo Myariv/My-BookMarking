@@ -12,7 +12,7 @@ import {
   fetchUserCredencialsFromDB,
 } from './../store/auth/auth-actions';
 
-import AuthForm from '../components/auth/AuthForm';
+import AuthForm from '../components/Auth/AuthForm';
 
 let isRegister;
 
