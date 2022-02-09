@@ -20,10 +20,10 @@ const authSlice = createSlice({
     },
 
     logout: (state) => {
-      state.isLogin = false;
       state.uid = '';
       state.name = '';
-      state.isRegister = '';
+      state.isRegister = false;
+      state.isLogin = false;
       localStorage.removeItem('IDENTIFIERS');
     },
 

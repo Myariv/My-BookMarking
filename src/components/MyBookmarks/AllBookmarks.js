@@ -1,4 +1,4 @@
-import { bookmarksAction } from '../../store/bookmarks/bookmarks-slice';
+import { deleteOneBookmark } from '../../store/bookmarks/bookmarks-actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import classes from './AllBookmarks.module.css';
@@ -7,10 +7,11 @@ import SingleBookmark from '../MyBookmarks/SingleBookmark';
 const AllBookmarks = (props) => {
   const navigate = useNavigate();
   const { bookmarks } = useSelector((state) => state.bookmarks);
+  const { uid } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const deleteOneHandler = (id) => {
-    dispatch(bookmarksAction.deleteBookmark({ id }));
+    dispatch(deleteOneBookmark(uid, id));
   };
 
   const editOneHandler = (id) => {
@@ -37,19 +38,21 @@ const AllBookmarks = (props) => {
           bookmarks.length >= 4 ? classes['container-overflow'] : classes.container
         }
       >
-        {bookmarks.map((single) => (
-          <SingleBookmark
-            onEditOneHandler={editOneHandler}
-            onDeleteOne={deleteOneHandler}
-            key={single.id}
-            id={single.id}
-            title={single.title}
-            url={single.url}
-            tags={single.tags}
-            notes={single.notes}
-            date={single.date}
-          />
-        ))}
+        {bookmarks.map((single) => {
+          return (
+            <SingleBookmark
+              onEditOneHandler={editOneHandler}
+              onDeleteOne={deleteOneHandler}
+              key={single.id}
+              id={single.id}
+              title={single.title}
+              url={single.url}
+              tags={single.tags}
+              notes={single.notes}
+              date={single.date}
+            />
+          );
+        })}
       </div>
     </main>
   );

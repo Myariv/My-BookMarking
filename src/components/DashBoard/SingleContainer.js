@@ -1,19 +1,17 @@
 import classes from './SingleContainer.module.css';
 import SingleLink from './SingleLink';
 
-const SingleContainer = () => {
+const SingleContainer = (props) => {
   return (
     <main className={classes.container}>
       <header className={classes['head-container']}>
         <div className={classes['head-container__control']}>
-          <p>Category Name</p>
+          <p>{props.category}</p>
           <button>X</button>
         </div>
       </header>
       <main className={classes['main-container']}>
-        <ul>
-          <SingleLink />
-        </ul>
+        <ul></ul>
       </main>
     </main>
   );

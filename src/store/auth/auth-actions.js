@@ -1,4 +1,3 @@
-// import { authActions } from './auth-slice';
 import { getDoc, doc, setDoc } from 'firebase/firestore';
 import { firestore } from '../../firebase';
 

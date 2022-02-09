@@ -1,36 +1,55 @@
-import { bookmarksAction } from './bookmarks-slice';
-import { getDoc, doc, setDoc } from 'firebase/firestore';
+import { bookmarksActions } from './bookmarks-slice';
+import { getDocs, addDoc, deleteDoc, collection, doc, setDoc } from 'firebase/firestore';
 import { firestore } from '../../firebase';
 
+// ----------------- Fectch All BookMarks ------------------- //
 export const fetchBookmarks = (uid) => {
   return async (dispatch) => {
-    /// TRY INDICATOR IF EMPTY ARRAY
     const fetchData = async () => {
-      const userRef = doc(firestore, 'users', uid);
-      const docSnap = await getDoc(userRef);
-
-      if (docSnap.exists()) {
-        const { bookmarks } = docSnap.data();
-        return bookmarks;
-      } else {
-        console.log('NO DATA');
-        throw new Error('NO DATA TO FETCH!!');
-      }
+      const bookmarksRef = collection(firestore, `users/${uid}/bookmarks`);
+      const docSnap = await getDocs(bookmarksRef);
+      const bookmarks = [];
+      docSnap.forEach((doc) => bookmarks.push({ id: doc.id, ...doc.data() }));
+      return bookmarks;
     };
 
     try {
       const bookmarks = await fetchData();
-      dispatch(bookmarksAction.setBookmarks({ bookmarks }));
+      dispatch(bookmarksActions.setBookmarks({ bookmarks }));
     } catch (e) {
       // console.log(e.message);
     }
   };
 };
 
-export const sendBookmarks = (bookmarks, uid) => {
-  return async () => {
-    const userRef = doc(firestore, 'users', uid);
-    await setDoc(userRef, { bookmarks }, { merge: true });
-    console.log('SEND!');
+// ----------------- Add One BookMark ------------------- //
+export const addOneBookmark = (uid, bookmark) => {
+  return async (dispatch) => {
+    const bookmarksRef = collection(firestore, `users/${uid}/bookmarks/`);
+    const docID = await addDoc(bookmarksRef, {
+      ...bookmark,
+    });
+    dispatch(bookmarksActions.addBookmark({ bookmark: { id: docID.id, ...bookmark } }));
+    console.log('Add Single!');
+  };
+};
+
+// ----------------- Delete One BookMark ------------------- //
+export const deleteOneBookmark = (uid, id) => {
+  return async (dispatch) => {
+    const bookmarksRef = doc(firestore, `users/${uid}/bookmarks/${id}`);
+    deleteDoc(bookmarksRef);
+    dispatch(bookmarksActions.deleteBookmark({ id }));
+    console.log('Delete Single!');
+  };
+};
+
+// ----------------- Delete One BookMark ------------------- //
+export const UpdateOneBookmark = (uid, bookmark) => {
+  return async (dispatch) => {
+    const bookmarksRef = doc(firestore, `users/${uid}/bookmarks/${bookmark.id}`);
+    setDoc(bookmarksRef, { ...bookmark });
+    dispatch(bookmarksActions.updateBookmark({ bookmark }));
+    console.log('Update Single!');
   };
 };

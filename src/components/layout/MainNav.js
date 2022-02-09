@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { authActions } from '../../store/auth/auth-slice';
-// import { bookmarksAction } from '../../store/bookmarks/bookmarks-slice';
+import { bookmarksActions } from '../../store/bookmarks/bookmarks-slice';
 import ControlButton from '../Ui/ControlButton';
 import { useNavigate } from 'react-router-dom';
 import classes from './MainNav.module.css';
@@ -12,6 +12,7 @@ const MainNav = () => {
   const navigate = useNavigate();
 
   const logoutHandler = () => {
+    dispatch(bookmarksActions.resetBookMarks());
     dispatch(authActions.logout());
     navigate('/', { replace: true });
   };

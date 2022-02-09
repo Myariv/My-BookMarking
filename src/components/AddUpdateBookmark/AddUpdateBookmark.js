@@ -1,7 +1,10 @@
 import { useEffect, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { bookmarksAction } from '../../store/bookmarks/bookmarks-slice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  addOneBookmark,
+  UpdateOneBookmark,
+} from '../../store/bookmarks/bookmarks-actions';
 import AddUpdateForm from './AddUpdateForm';
 
 const inputsReducer = (state, action) => {
@@ -19,7 +22,10 @@ const inputsReducer = (state, action) => {
   }
 
   if (action.type === 'URL') {
-    if (!action.enterdUrl.includes('https://') && !action.enterdUrl.includes('http://')) {
+    if (
+      !action.enterdUrl.startsWith('https://') &&
+      !action.enterdUrl.startsWith('http://')
+    ) {
       updatedState.validUrl = false;
     } else {
       updatedState.validUrl = true;
@@ -111,6 +117,7 @@ const AddUpdateBookmark = (props) => {
 
   const navigate = useNavigate();
   const reduxDispatch = useDispatch();
+  const { uid } = useSelector((state) => state.auth);
   const [state, dispatch] = useReducer(inputsReducer, inintailState);
   const { validForm } = state;
 
@@ -120,12 +127,25 @@ const AddUpdateBookmark = (props) => {
   };
 
   useEffect(() => {
+    let bookmark = {
+      // Refactor
+      title: state.title,
+      url: state.url,
+      tags: state.tags,
+      notes: state.notes,
+      date: `${new Date().getDate()}/${
+        new Date().getMonth() + 1
+      }/${new Date().getFullYear()}`,
+    };
+
     const setBookmark = () => {
-      reduxDispatch(bookmarksAction.addBookmark({ bookmark: state }));
+      reduxDispatch(addOneBookmark(uid, bookmark)); // state === booksmark in addOneFunction
     };
 
     const updateBookmark = () => {
-      reduxDispatch(bookmarksAction.updateBookmark({ bookmark: state }));
+      // reduxDispatch(bookmarksActions.updateBookmark({ bookmark: state }));
+      bookmark.id = state.id;
+      reduxDispatch(UpdateOneBookmark(uid, bookmark));
     };
 
     if (!validForm) {
@@ -139,7 +159,7 @@ const AddUpdateBookmark = (props) => {
     }
     dispatch({ type: 'RESET_STATE' });
     navigate('/myBookmarks');
-  }, [state, validForm, dispatch, reduxDispatch, navigate, bookmarkToEdit]);
+  }, [state, validForm, dispatch, reduxDispatch, navigate, bookmarkToEdit, uid]);
 
   return (
     <AddUpdateForm

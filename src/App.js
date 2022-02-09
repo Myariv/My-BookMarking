@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { authActions } from './store/auth/auth-slice';
-import { fetchBookmarks, sendBookmarks } from './store/bookmarks/bookmarks-actions';
+import { fetchBookmarks } from './store/bookmarks/bookmarks-actions';
 
 import HomePage from './pages/HomePage';
 import DashBoard from './pages/DashBoard';
@@ -14,9 +14,9 @@ import EditBookmark from './pages/EditBookmark';
 function App() {
   const dispatch = useDispatch();
   const { isLogin, uid } = useSelector((state) => state.auth);
-  const { bookmarks } = useSelector((state) => state.bookmarks);
 
   useEffect(() => {
+    // Remember To Refctor To FireStore
     const IDENTIFIERS = localStorage.getItem('IDENTIFIERS');
     if (!IDENTIFIERS) return;
     const { uid, name } = JSON.parse(IDENTIFIERS);
@@ -29,19 +29,6 @@ function App() {
   useEffect(() => {
     dispatch(fetchBookmarks(uid));
   }, [dispatch, uid]);
-
-  useEffect(() => {
-    if (!uid || !bookmarks.length) return console.log('No Uid');
-    dispatch(sendBookmarks(bookmarks, uid));
-  }, [bookmarks, dispatch, uid]);
-
-  // useEffect(() => {
-  //   debugger;
-  //   if (isChanged) {
-  //     dispatch(sendBookmarks(bookmarks, uid));
-  //   }
-  //   debugger;
-  // }, [bookmarks, dispatch, uid, isChanged]);
 
   return (
     <Layout>
