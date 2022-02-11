@@ -8,7 +8,7 @@ const store = configureStore({
   reducer: {
     auth: AuthReducer,
     bookmarks: BookmarksReducer,
-    CategoriesReducer: CategoriesReducer,
+    categories: CategoriesReducer,
     links: LinksReducer,
   },
 });

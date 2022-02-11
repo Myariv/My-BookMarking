@@ -121,7 +121,7 @@ const AddUpdateBookmark = (props) => {
   const [state, dispatch] = useReducer(inputsReducer, inintailState);
   const { validForm } = state;
 
-  const onSubmithHandler = (e) => {
+  const onSubmitHandler = (e) => {
     e.preventDefault();
     dispatch({ type: 'VALID_FORM' });
   };
@@ -143,7 +143,6 @@ const AddUpdateBookmark = (props) => {
     };
 
     const updateBookmark = () => {
-      // reduxDispatch(bookmarksActions.updateBookmark({ bookmark: state }));
       bookmark.id = state.id;
       reduxDispatch(UpdateOneBookmark(uid, bookmark));
     };
@@ -163,7 +162,7 @@ const AddUpdateBookmark = (props) => {
 
   return (
     <AddUpdateForm
-      onSubmithHandler={onSubmithHandler}
+      onSubmitHandler={onSubmitHandler}
       validTitle={state.validTitle}
       validUrl={state.validUrl}
       validTags={state.validTags}

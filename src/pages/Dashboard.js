@@ -1,12 +1,14 @@
+import { Fragment } from 'react';
+import { Outlet } from 'react-router-dom';
 import DashBoardContainer from '../components/DashBoard/DashBoardContainer';
 import DashBoardHeader from '../components/DashBoard/DashBoardHeader';
-import { Fragment } from 'react';
 
 const DashBoard = () => {
   return (
     <Fragment>
       <DashBoardHeader />
       <DashBoardContainer />
+      <Outlet />
     </Fragment>
   );
 };

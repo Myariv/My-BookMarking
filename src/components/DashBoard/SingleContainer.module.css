@@ -21,6 +21,13 @@
 
 .head-container__control p {
   font-weight: 500;
+  cursor: text;
+}
+
+.head-container__control input {
+  font-family: inherit;
+  font-weight: 500;
+  height: 1.5rem;
 }
 
 .head-container__control button {

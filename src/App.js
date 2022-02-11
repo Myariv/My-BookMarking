@@ -3,9 +3,11 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { authActions } from './store/auth/auth-slice';
 import { fetchBookmarks } from './store/bookmarks/bookmarks-actions';
+import { fetchCategories } from './store/categories/categories-actions';
 
 import HomePage from './pages/HomePage';
 import DashBoard from './pages/DashBoard';
+import AddCategory from './pages/AddCategory';
 import AddBookmark from './pages/AddBookmark';
 import MyBookMarks from './pages/MyBookmarks';
 import Layout from './components/Layout/Layout';
@@ -27,7 +29,9 @@ function App() {
   }, [isLogin, dispatch]);
 
   useEffect(() => {
+    if (!uid) return;
     dispatch(fetchBookmarks(uid));
+    dispatch(fetchCategories(uid));
   }, [dispatch, uid]);
 
   return (
@@ -35,7 +39,11 @@ function App() {
       <Routes>
         <Route path='/' element={<Navigate replace to='/home' />} />
         {!isLogin && <Route path='/home' element={<HomePage />} />}
-        {isLogin && <Route path='/dashboard' element={<DashBoard />} />}
+        {isLogin && (
+          <Route path='/dashboard' element={<DashBoard />}>
+            <Route path='/dashboard/addcategory' element={<AddCategory />} />
+          </Route>
+        )}
         {isLogin && (
           <Route path='/myBookmarks' element={<MyBookMarks />}>
             <Route path='/myBookmarks/:id' element={<EditBookmark />} />
