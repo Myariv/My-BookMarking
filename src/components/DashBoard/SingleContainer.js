@@ -3,12 +3,14 @@ import {
   UpdateOneCategory,
 } from '../../store/categories/categories-actions';
 import { useDispatch, useSelector } from 'react-redux';
-import classes from './SingleContainer.module.css';
-import SingleLink from './SingleLink';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import SingleLink from './SingleLink';
+import classes from './SingleContainer.module.css';
 
 // Little Help Function
 const reFuctName = (e) => {
+  if (!e.target.value.length) return;
   let reFactName = e.target.value.toLowerCase();
   reFactName = reFactName.replace(reFactName[0], reFactName[0].toUpperCase());
   return reFactName;
@@ -17,6 +19,7 @@ const reFuctName = (e) => {
 const SingleContainer = (props) => {
   const [categoryName, setCategoryName] = useState(props.categoryName);
   const [isClicked, setIsClicked] = useState(false);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const { uid } = useSelector((state) => state.auth);
@@ -42,6 +45,10 @@ const SingleContainer = (props) => {
     dispatch(UpdateOneCategory(uid, props.id, name));
   };
 
+  const addLinkModalHandler = () => {
+    navigate(`/dashboard/${props.id}/addlink`);
+  };
+
   return (
     <main className={classes.container}>
       <header className={classes['head-container']}>
@@ -54,7 +61,12 @@ const SingleContainer = (props) => {
               onBlur={focusOutUpdateHandler}
             ></input>
           )}
-          <button onClick={delteOneHndler}>X</button>
+          <div className={classes['head-container__controls']}>
+            <button onClick={addLinkModalHandler} className={classes.plus}>
+              +
+            </button>
+            <button onClick={delteOneHndler}>X</button>
+          </div>
         </div>
       </header>
       <main className={classes['main-container']}>

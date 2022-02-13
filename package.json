@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "favicon-fetch": "^1.0.0",
     "firebase": "^9.6.5",
+    "get-url-title": "^2.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",

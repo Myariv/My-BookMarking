@@ -1,7 +1,6 @@
 /* #efe6d5 #101820ff*/
 
 .container {
-  /* border: 1px solid #101820ff; */
   min-width: 378px;
 }
 
@@ -13,9 +12,11 @@
 }
 
 .head-container__control {
-  margin: 0 3% 0 2%;
+  /* margin: 0 3% 0 2%; */
+  margin: 0 1% 0 2%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 
@@ -30,11 +31,25 @@
   height: 1.5rem;
 }
 
-.head-container__control button {
+.head-container__controls {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.head-container__controls button {
   border: none;
   background: none;
-  font-weight: 100;
+  font-weight: 800;
   cursor: pointer;
+  border: solid 1px #efe6d5;
+  padding: 0 4px;
+}
+
+.head-container__controls button.plus {
+  font-size: 1.1rem;
+  transform: translate(-50%);
 }
 
 .main-container {

@@ -8,6 +8,7 @@ import { fetchCategories } from './store/categories/categories-actions';
 import HomePage from './pages/HomePage';
 import DashBoard from './pages/DashBoard';
 import AddCategory from './pages/AddCategory';
+import AddCategoryLink from './pages/AddCategoryLink';
 import AddBookmark from './pages/AddBookmark';
 import MyBookMarks from './pages/MyBookmarks';
 import Layout from './components/Layout/Layout';
@@ -42,6 +43,7 @@ function App() {
         {isLogin && (
           <Route path='/dashboard' element={<DashBoard />}>
             <Route path='/dashboard/addcategory' element={<AddCategory />} />
+            <Route path='/dashboard/:categoryId/addlink' element={<AddCategoryLink />} />
           </Route>
         )}
         {isLogin && (
