@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { authActions } from './store/auth/auth-slice';
 import { fetchBookmarks } from './store/bookmarks/bookmarks-actions';
 import { fetchCategories } from './store/categories/categories-actions';
+import { fetchLinks } from './store/links/links-actions';
 
 import HomePage from './pages/HomePage';
 import DashBoard from './pages/DashBoard';
@@ -33,6 +34,7 @@ function App() {
     if (!uid) return;
     dispatch(fetchBookmarks(uid));
     dispatch(fetchCategories(uid));
+    dispatch(fetchLinks(uid));
   }, [dispatch, uid]);
 
   return (

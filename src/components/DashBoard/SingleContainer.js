@@ -23,6 +23,8 @@ const SingleContainer = (props) => {
 
   const dispatch = useDispatch();
   const { uid } = useSelector((state) => state.auth);
+  const { links } = useSelector((state) => state.links);
+  const ownLinks = links.filter((link) => props.id === link.own);
 
   const delteOneHndler = () => {
     dispatch(deleteOneCategory(uid, props.id));
@@ -70,7 +72,17 @@ const SingleContainer = (props) => {
         </div>
       </header>
       <main className={classes['main-container']}>
-        <ul></ul>
+        <ul>
+          {ownLinks.map((link) => (
+            <SingleLink
+              key={link.id}
+              id={link.id}
+              url={link.url}
+              title={link.title}
+              favicon={link.favicon}
+            />
+          ))}
+        </ul>
       </main>
     </main>
   );

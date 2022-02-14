@@ -1,6 +1,7 @@
 import { useReducer } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { addOneLink } from '../../store/links/links-actions';
 import AddUpdateForm from './AddUpdateForm';
 
 const initialState = { url: '', isValidUrl: true };
@@ -28,20 +29,28 @@ const urlReducer = (state, action) => {
 
 const AddUpdateCategoryLink = () => {
   const { uid } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
   const reduxDispatch = useDispatch();
   const { categoryId } = useParams();
 
   const [state, dispatch] = useReducer(urlReducer, initialState);
   const { isValidUrl } = state;
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     if (!isValidUrl) {
       return;
     }
 
-    reduxDispatch();
+    const link = {
+      title: state.url.split('.')[1],
+      url: state.url,
+      own: categoryId,
+      favicon: `https://s2.googleusercontent.com/s2/favicons?domain=${state.url}`,
+    };
+
+    reduxDispatch(addOneLink(uid, link)).then(() => navigate(-1));
   };
 
   const changeHandler = (e) => {

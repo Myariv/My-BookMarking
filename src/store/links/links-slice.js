@@ -8,9 +8,18 @@ const linksSlice = createSlice({
   name: 'links',
   initialState,
   reducers: {
-    addLink: () => {},
-    removeLink: () => {},
-    updateLink: () => {},
+    setLinks: (state, action) => {
+      const { links } = action.payload;
+      state.links = links;
+    },
+    addLink: (state, action) => {
+      const { link } = action.payload;
+      state.links.push(link);
+    },
+    deleteLink: (state, action) => {
+      const { id } = action.payload;
+      state.links = state.links.filter((link) => link.id !== id);
+    },
   },
 });
 

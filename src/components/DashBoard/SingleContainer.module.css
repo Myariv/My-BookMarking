@@ -73,19 +73,42 @@
   /* background-color: brown; */
   display: flex;
   align-items: center;
-  gap: 5px;
+  justify-content: space-between;
 }
 
-.main-container a {
-  font-size: 1rem;
+.link-props {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.link-props a {
+  font-size: 14px;
   text-decoration: none;
   color: #101820ff;
   border-bottom: 1px solid #fff;
+
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 300px;
 }
-.main-container a:hover {
+
+.link-props a:hover {
   border-bottom: 1px solid #101820ff;
 }
 
-.main-container img {
-  height: 20px;
+.link-props img {
+  height: 18px;
+}
+
+.main-container button {
+  background: none;
+  border: none;
+  justify-self: end;
+}
+
+.main-container button:hover {
+  cursor: pointer;
 }
