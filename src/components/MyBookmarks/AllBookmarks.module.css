@@ -31,13 +31,11 @@
   border: none;
   font-size: 1.3rem;
   padding-bottom: 2px;
-  border-bottom: 1px solid white;
 }
 
 .head-control__add button:hover,
 .head-control__add button:active {
   cursor: pointer;
-  border-bottom: 1px solid #efe6d5;
 }
 
 .container {
@@ -51,4 +49,13 @@
   height: 800px;
   max-width: 900px;
   overflow-y: scroll;
+}
+
+.container-overflow::-webkit-scrollbar {
+  width: 5px;
+}
+
+.container-overflow::-webkit-scrollbar-thumb {
+  background: #efe6d5;
+  border-radius: 8px;
 }

@@ -16,7 +16,7 @@ const SingleBookmark = (props) => {
           X
         </button>
         <button onClick={getIdEditHandler} className={classes.button}>
-          E
+          &#8801;
         </button>
       </div>
 

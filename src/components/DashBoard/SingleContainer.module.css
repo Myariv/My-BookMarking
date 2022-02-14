@@ -9,6 +9,8 @@
   height: 2rem;
   display: flex;
   align-items: center;
+  /* border-top-right-radius: 3px; */
+  /* border-top-left-radius: 3px; */
 }
 
 .head-container__control {
@@ -59,6 +61,8 @@
   /* background-color: aqua; */
   padding: 5px 0;
   min-height: 100px;
+  /* border-bottom-right-radius: 3px; */
+  /* border-bottom-left-radius: 3px; */
 }
 
 .main-container ul {

@@ -25,13 +25,14 @@
   border: #101820ff 1px solid;
   padding: 3px 6px;
   border-radius: 3px;
-  color: #efe6d5;
+  /* color: #efe6d5; */
+  color: #fff;
   margin-bottom: 1rem;
 }
 
 .button:hover {
   cursor: pointer;
-  background-color: #efe6d5;
+  background-color: #fff;
   color: #101820ff;
   border: #101820ff 1px solid;
 }

@@ -1,13 +1,13 @@
 import { useSelector } from 'react-redux';
-import { useOutletContext } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import AddUpdateBookmark from '../components/AddUpdateBookmark/AddUpdateBookmark';
 import Modal from '../components/Ui/modal/Modal';
 
 const EditBookmark = () => {
-  const context = useOutletContext();
-  const { editId } = context;
+  const { id } = useParams();
+
   const { bookmarks } = useSelector((state) => state.bookmarks);
-  const bookmarkToEdit = bookmarks.find((single) => single.id === editId);
+  const bookmarkToEdit = bookmarks.find((single) => single.id === id);
 
   return (
     <Modal>

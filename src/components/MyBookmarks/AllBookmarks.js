@@ -6,7 +6,7 @@ import SingleBookmark from '../MyBookmarks/SingleBookmark';
 
 const AllBookmarks = (props) => {
   const navigate = useNavigate();
-  const { bookmarks } = useSelector((state) => state.bookmarks);
+  let { bookmarks } = useSelector((state) => state.bookmarks);
   const { uid } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
@@ -15,12 +15,18 @@ const AllBookmarks = (props) => {
   };
 
   const editOneHandler = (id) => {
-    props.onEditHandler(id);
+    navigate(`/myBookmarks/${id}`);
   };
 
   const addOneHandler = () => {
     navigate('/myBookmarks/add');
   };
+
+  if (props.searchTerm) {
+    bookmarks = bookmarks.filter((bookmark) =>
+      bookmark.title.toLowerCase().startsWith(props.searchTerm)
+    );
+  }
 
   return (
     <main className={classes.main}>

@@ -1,0 +1,20 @@
+/* #101820ff  #efe6d5;*/
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #efe6d5a2;
+  text-align: center;
+  height: 3rem;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container span {
+  font-weight: 500;
+}
